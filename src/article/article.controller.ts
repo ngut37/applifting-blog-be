@@ -4,6 +4,8 @@ import {
   DefaultValuePipe,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -45,6 +47,7 @@ export class ArticleController {
   }
 
   @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   deleteArticle(@Param('id') id: string): Promise<void> {
     return this.articleService.deleteArticle(id);
   }
