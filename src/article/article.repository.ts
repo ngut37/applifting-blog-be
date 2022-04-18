@@ -17,7 +17,7 @@ export class ArticleRepository extends Repository<Article> {
     const deleteResult = await this.delete(id);
 
     if (!deleteResult.affected) {
-      throw new NotFoundException(`Article with ID "${id}" does not exist.`);
+      throw new NotFoundException(`Article with ID ${id} does not exist.`);
     }
   }
 
@@ -28,7 +28,7 @@ export class ArticleRepository extends Repository<Article> {
     let foundArticle = await this.findOne(id);
 
     if (!foundArticle) {
-      throw new NotFoundException(`Article with ID "${id}" does not exist.`);
+      throw new NotFoundException(`Article with ID ${id} does not exist.`);
     }
 
     foundArticle = {
