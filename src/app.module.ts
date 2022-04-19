@@ -8,13 +8,15 @@ import { ApiKeyMiddleware } from './middleware/api-key.middleware';
 import { TenantModule } from './tenant/tenant.module';
 import { ArticleModule } from './article/article.module';
 import { ArticleController } from './article/article.controller';
+import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: config.PG_HOST,
-      port: parseInt(config.PG_PORT),
+      port: config.PG_PORT,
       username: config.PG_USER,
       password: config.PG_PASSWORD,
       database: config.PG_DATABASE,
@@ -23,12 +25,15 @@ import { ArticleController } from './article/article.controller';
     }),
     ArticleModule,
     TenantModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ApiKeyMiddleware).forRoutes(ArticleController);
+    consumer
+      .apply(ApiKeyMiddleware)
+      .forRoutes(ArticleController, AuthController);
   }
 }

@@ -49,6 +49,14 @@ export class ArticleService {
     id: Article['articleId'],
     articleUpdates: UpdateArticleDto,
   ): Promise<Article> {
-    return await this.articleRepository.updateArticleById(id, articleUpdates);
+    const updatedArticle = await this.articleRepository.updateArticleById(
+      id,
+      articleUpdates,
+    );
+
+    if (!updatedArticle)
+      throw new NotFoundException(`Article with ID ${id} was not found`);
+
+    return updatedArticle;
   }
 }

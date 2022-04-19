@@ -10,12 +10,14 @@ export class TenantController {
   constructor(private tenantService: TenantService) {}
 
   @Post()
-  insertTenant(@Body() insertTenantDto: InsertTenantDto): Promise<Tenant> {
-    return this.tenantService.insertTenant(insertTenantDto);
+  async insertTenant(
+    @Body() insertTenantDto: InsertTenantDto,
+  ): Promise<Tenant> {
+    return await this.tenantService.insertTenant(insertTenantDto);
   }
 
   @Get('/:id')
-  getTenantById(@Param('id') id: string): Promise<Tenant> {
-    return this.tenantService.getTenantById(id);
+  async getTenantById(@Param('id') id: string): Promise<Tenant> {
+    return await this.tenantService.getTenantById(id);
   }
 }
