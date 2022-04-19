@@ -13,11 +13,11 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { ArticleService } from './article.service';
-import { Article } from './article.entity';
-
 import { InsertArticleDto } from './dto/insert-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+
+import { ArticleService } from './article.service';
+import { Article } from './article.entity';
 
 @Controller('article')
 export class ArticleController {

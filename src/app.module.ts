@@ -1,9 +1,13 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { config } from '@config';
 
+import { ApiKeyMiddleware } from './middleware/api-key.middleware';
+
+import { TenantModule } from './tenant/tenant.module';
 import { ArticleModule } from './article/article.module';
+import { ArticleController } from './article/article.controller';
 
 @Module({
   imports: [
@@ -18,8 +22,13 @@ import { ArticleModule } from './article/article.module';
       synchronize: true, // ! TODO - set to false for production env
     }),
     ArticleModule,
+    TenantModule,
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ApiKeyMiddleware).forRoutes(ArticleController);
+  }
+}
