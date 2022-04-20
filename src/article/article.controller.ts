@@ -13,7 +13,6 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-// import { AuthGuard } from '@nestjs/passport';
 
 import { InsertArticleDto } from './dto/insert-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';

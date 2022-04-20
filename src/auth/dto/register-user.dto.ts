@@ -1,11 +1,9 @@
-//This DTO serves both signing-up and signing-in feature.
-
 import {
   IsString,
   MinLength,
   MaxLength,
-  // Matches,
   IsNotEmpty,
+  Matches,
 } from 'class-validator';
 
 export class RegisterUserDto {
@@ -19,8 +17,8 @@ export class RegisterUserDto {
   @IsNotEmpty()
   @MinLength(6)
   @MaxLength(255)
-  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-  //   message: 'password too weak',
-  // })
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'password too weak',
+  })
   password: string;
 }
