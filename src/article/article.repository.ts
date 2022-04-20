@@ -1,5 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
-import { EntityRepository, Repository } from 'typeorm';
+import { DeleteResult, EntityRepository, Repository } from 'typeorm';
 
 import { Article } from './article.entity';
 import { InsertArticleDto } from './dto/insert-article.dto';
@@ -13,23 +12,17 @@ export class ArticleRepository extends Repository<Article> {
     return await this.save(createdArticle);
   }
 
-  async deleteArticleById(id: string): Promise<void> {
-    const deleteResult = await this.delete(id);
-
-    if (!deleteResult.affected) {
-      throw new NotFoundException(`Article with ID ${id} does not exist.`);
-    }
+  async deleteArticleById(id: string): Promise<DeleteResult> {
+    return await this.delete(id);
   }
 
   async updateArticleById(
     id: Article['articleId'],
     updates: UpdateArticleDto,
-  ): Promise<Article> {
+  ): Promise<Article | null> {
     let foundArticle = await this.findOne(id);
 
-    if (!foundArticle) {
-      throw new NotFoundException(`Article with ID ${id} does not exist.`);
-    }
+    if (!foundArticle) return null;
 
     foundArticle = {
       ...foundArticle,

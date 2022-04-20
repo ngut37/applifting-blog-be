@@ -8,10 +8,10 @@ export class Article {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   perex?: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
   imageId?: string;
 
   @Column()

@@ -11,20 +11,24 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+// import { AuthGuard } from '@nestjs/passport';
 
 import { InsertArticleDto } from './dto/insert-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 import { ArticleService } from './article.service';
 import { Article } from './article.entity';
 
 @Controller('article')
+@UseGuards(new JwtAuthGuard())
 export class ArticleController {
   constructor(private articleService: ArticleService) {}
 
   @Get()
-  listArticles(
+  async listArticles(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   ) {
@@ -35,28 +39,33 @@ export class ArticleController {
   }
 
   @Get('/:id')
-  getArticleById(@Param('id') id: string): Promise<Article> {
-    return this.articleService.getArticleById(id);
+  async getArticleById(@Param('id') id: string): Promise<Article> {
+    return await this.articleService.getArticleById(id);
   }
 
   @Post()
-  insertArticle(
+  async insertArticle(
     @Body() insertedArticleDto: InsertArticleDto,
   ): Promise<Article> {
-    return this.articleService.insertArticle(insertedArticleDto);
+    return await this.articleService.insertArticle(insertedArticleDto);
   }
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteArticle(@Param('id') id: string): Promise<void> {
-    return this.articleService.deleteArticle(id);
+  async deleteArticle(@Param('id') id: string): Promise<void> {
+    return await this.articleService.deleteArticle(id);
   }
 
   @Patch('/:id')
-  updateArticle(
+  async updateArticle(
     @Param('id') id: string,
     @Body() updateArticleDto: UpdateArticleDto,
   ): Promise<Article> {
-    return this.articleService.updateArticleById(id, updateArticleDto);
+    const updatedArticle = await this.articleService.updateArticleById(
+      id,
+      updateArticleDto,
+    );
+
+    return updatedArticle;
   }
 }
