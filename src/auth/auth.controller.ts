@@ -1,18 +1,9 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Put,
-  // UseGuards,
-} from '@nestjs/common';
-// import { AuthGuard } from '@nestjs/passport';
+import { Controller, Post, Body, Put } from '@nestjs/common';
 
 import { RegisterUserDto } from './dto/register-user.dto';
+import { LoginCredentialsDto } from './dto/login-credentials.dto';
 
 import { AuthService } from './auth.service';
-import { LoginCredentialsDto } from './dto/login-credentials.dto';
-// import { User } from './user.entity';
-// import { GetUser } from './get-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -29,10 +20,4 @@ export class AuthController {
   ): Promise<{ accessToken: string }> {
     return await this.authService.login(loginCredentialsDto);
   }
-
-  // @Post('/test')
-  // @UseGuards(AuthGuard())
-  // test(@GetUser() user: User) {
-  //   console.log(user);
-  // }
 }

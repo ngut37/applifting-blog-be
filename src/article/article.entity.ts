@@ -11,7 +11,7 @@ export class Article {
   @Column({ nullable: true })
   perex?: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ nullable: true })
   imageId?: string;
 
   @Column()
