@@ -14,15 +14,16 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+
 import { InsertArticleDto } from './dto/insert-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 import { ArticleService } from './article.service';
 import { Article } from './article.entity';
 
 @Controller('article')
-@UseGuards(new JwtAuthGuard())
+@UseGuards(JwtAuthGuard)
 export class ArticleController {
   constructor(private articleService: ArticleService) {}
 

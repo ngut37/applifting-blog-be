@@ -22,7 +22,7 @@ export class UserRepository extends Repository<User> {
     user.password = await this.hashPassword(password, user.salt);
 
     try {
-      await user.save();
+      await this.save(user);
     } catch (error) {
       // 23505 = duplicate username
       if (error.code === '23505') {

@@ -1,8 +1,9 @@
 import { DeleteResult, EntityRepository, Repository } from 'typeorm';
 
-import { Article } from './article.entity';
 import { InsertArticleDto } from './dto/insert-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+
+import { Article } from './article.entity';
 
 @EntityRepository(Article)
 export class ArticleRepository extends Repository<Article> {
@@ -17,18 +18,13 @@ export class ArticleRepository extends Repository<Article> {
   }
 
   async updateArticleById(
-    id: Article['articleId'],
+    id: Article['id'],
     updates: UpdateArticleDto,
-  ): Promise<Article | null> {
-    let foundArticle = await this.findOne(id);
+  ): Promise<Article | undefined> {
+    const foundArticle = await this.findOne(id);
 
-    if (!foundArticle) return null;
+    if (!foundArticle) return undefined;
 
-    foundArticle = {
-      ...foundArticle,
-      ...updates,
-    };
-
-    return await this.save(foundArticle);
+    return await this.save({ ...foundArticle, ...updates });
   }
 }
