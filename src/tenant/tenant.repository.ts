@@ -15,7 +15,7 @@ export class TenantRepository extends Repository<Tenant> {
     const foundTenant = await this.findOne(tenantId);
 
     if (!foundTenant)
-      throw new NotFoundException(`Tenant with ID ${tenantId} does not exist.`);
+      throw new NotFoundException(`Tenant with ID ${tenantId} does not exist`);
 
     return foundTenant;
   }

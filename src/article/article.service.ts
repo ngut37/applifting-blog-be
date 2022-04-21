@@ -25,13 +25,11 @@ export class ArticleService {
     return paginate(this.articleRepository, options);
   }
 
-  async getArticleById(articleId: Article['articleId']): Promise<Article> {
-    const foundArticle = await this.articleRepository.findOne(articleId);
+  async getArticleById(id: Article['id']): Promise<Article> {
+    const foundArticle = await this.articleRepository.findOne(id);
 
     if (!foundArticle) {
-      throw new NotFoundException(
-        `Article with ID "${articleId}" does not exist.`,
-      );
+      throw new NotFoundException(`Article with ID "${id}" does not exist`);
     }
 
     return foundArticle;
@@ -41,12 +39,15 @@ export class ArticleService {
     return await this.articleRepository.insertArticle(article);
   }
 
-  async deleteArticle(id: Article['articleId']): Promise<void> {
-    await this.articleRepository.deleteArticleById(id);
+  async deleteArticle(id: Article['id']): Promise<void> {
+    const deleteResult = await this.articleRepository.deleteArticleById(id);
+
+    if (!deleteResult.affected)
+      throw new NotFoundException(`Article with ID "${id}" does not exist`);
   }
 
   async updateArticleById(
-    id: Article['articleId'],
+    id: Article['id'],
     articleUpdates: UpdateArticleDto,
   ): Promise<Article> {
     const updatedArticle = await this.articleRepository.updateArticleById(
@@ -55,7 +56,7 @@ export class ArticleService {
     );
 
     if (!updatedArticle)
-      throw new NotFoundException(`Article with ID ${id} was not found`);
+      throw new NotFoundException(`Article with ID "${id}" does not exist`);
 
     return updatedArticle;
   }

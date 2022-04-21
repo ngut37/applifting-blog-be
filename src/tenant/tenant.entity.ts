@@ -9,7 +9,7 @@ import {
 @Entity()
 export class Tenant {
   @PrimaryGeneratedColumn('uuid')
-  tenantId: string;
+  id: string;
 
   @Column()
   name: string;
