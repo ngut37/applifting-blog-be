@@ -1,4 +1,6 @@
-import { DeleteResult, EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
+
+import { Image } from '../image/image.entity';
 
 import { InsertArticleDto } from './dto/insert-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
@@ -7,14 +9,17 @@ import { Article } from './article.entity';
 
 @EntityRepository(Article)
 export class ArticleRepository extends Repository<Article> {
-  async insertArticle(insertArticleDto: InsertArticleDto) {
-    const createdArticle = this.create(insertArticleDto);
+  async insertArticle(insertArticleDto: InsertArticleDto, image?: Image) {
+    const createdArticle = this.create({ ...insertArticleDto, image });
 
-    return await this.save(createdArticle);
-  }
+    await this.save(createdArticle);
 
-  async deleteArticleById(id: string): Promise<DeleteResult> {
-    return await this.delete(id);
+    if (createdArticle.image) {
+      createdArticle.imageId = createdArticle.image.id;
+      delete createdArticle.image;
+    }
+
+    return createdArticle;
   }
 
   async updateArticleById(

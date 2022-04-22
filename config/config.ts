@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export const config = Object.freeze({
-  APP_PORT: 3000,
+  APP_PORT: process.env.APP_PORT || 4000,
 
   PG_HOST: process.env.PG_HOST,
   PG_PORT: parseInt(process.env.PG_PORT),

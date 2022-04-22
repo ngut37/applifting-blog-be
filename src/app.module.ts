@@ -12,6 +12,8 @@ import { ArticleModule } from './article/article.module';
 import { ArticleController } from './article/article.controller';
 import { CommentModule } from './comment/comment.module';
 import { CommentController } from './comment/comment.controller';
+import { ImageModule } from './image/image.module';
+import { ImageController } from './image/image.controller';
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { CommentController } from './comment/comment.controller';
     TenantModule,
     AuthModule,
     CommentModule,
+    ImageModule,
   ],
   controllers: [],
   providers: [],
@@ -37,6 +40,11 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(ApiKeyMiddleware)
-      .forRoutes(ArticleController, AuthController, CommentController);
+      .forRoutes(
+        ArticleController,
+        AuthController,
+        CommentController,
+        ImageController,
+      );
   }
 }

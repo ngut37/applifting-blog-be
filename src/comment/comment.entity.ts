@@ -16,7 +16,7 @@ export class Comment {
   @Column({ name: 'articleId' })
   articleId: number;
   // Comment n..1 Article
-  @ManyToOne(() => Article, (article) => article.comments, { eager: false })
+  @ManyToOne(() => Article, (article) => article.comments)
   @JoinColumn({ name: 'articleId' })
   article: Article;
 
