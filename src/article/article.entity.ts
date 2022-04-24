@@ -1,10 +1,12 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 import { Image } from '../image/image.entity';
@@ -39,4 +41,10 @@ export class Article {
   // Article 1..n Comment
   @OneToMany(() => Comment, (comment) => comment.article, { eager: true })
   comments: Comment[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt?: Date;
 }
