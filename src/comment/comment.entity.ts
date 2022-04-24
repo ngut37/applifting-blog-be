@@ -16,7 +16,10 @@ export class Comment {
   @Column({ name: 'articleId' })
   articleId: number;
   // Comment n..1 Article
-  @ManyToOne(() => Article, (article) => article.comments)
+  @ManyToOne(() => Article, (article) => article.comments, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'articleId' })
   article: Article;
 

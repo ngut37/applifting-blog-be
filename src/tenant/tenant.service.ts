@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { InsertTenantDto } from './dto/insert-tenant.dto';
+import { TenantAuthenticationDto } from './dto/tenant-authentication.dto';
 
 import { Tenant } from './tenant.entity';
 import { TenantRepository } from './tenant.repository';
@@ -13,11 +13,18 @@ export class TenantService {
     private tenantRepository: TenantRepository,
   ) {}
 
-  async insertTenant(insertTenantDto: InsertTenantDto): Promise<Tenant> {
-    return this.tenantRepository.insertTenant(insertTenantDto);
+  async insertTenant(
+    tenantAuthenticationDto: TenantAuthenticationDto,
+  ): Promise<Tenant> {
+    return this.tenantRepository.insertTenant(tenantAuthenticationDto);
   }
 
-  async getTenantById(tenantId: string): Promise<Tenant> {
-    return await this.tenantRepository.getTenantById(tenantId);
+  async getTenantById(id: Tenant['id']): Promise<Tenant> {
+    const foundTenant = await this.tenantRepository.getTenantById(id);
+
+    if (!foundTenant)
+      throw new NotFoundException(`Tenant with ID ${id} does not exist`);
+
+    return foundTenant;
   }
 }

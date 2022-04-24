@@ -3,11 +3,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
+import { config } from '@config';
+
+import { TenantRepository } from '../tenant/tenant.repository';
+
 import { JwtStrategy } from './jwt-strategy';
-import { UserRepository } from './user.repository';
+
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { config } from '@config';
 
 @Module({
   imports: [
@@ -20,7 +23,7 @@ import { config } from '@config';
         expiresIn: config.JWT_EXPIRATION,
       },
     }),
-    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([TenantRepository]),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

@@ -24,7 +24,7 @@ export class CommentService {
 
     if (!foundArticle)
       throw new NotFoundException(
-        `Article with ID "${articleId}" does not exist`,
+        `Article with ID ${articleId} does not exist`,
       );
 
     return await this.commentRepository.insertComment(
@@ -37,11 +37,13 @@ export class CommentService {
     const res = await this.commentRepository.increment({ id }, 'score', 1);
     if (!res.affected)
       throw new NotFoundException(`Comment with ID ${id} does not exist`);
+    return;
   }
 
   async downvote(id: Comment['id']): Promise<void> {
     const res = await this.commentRepository.decrement({ id }, 'score', 1);
     if (!res.affected)
       throw new NotFoundException(`Comment with ID ${id} does not exist`);
+    return;
   }
 }
