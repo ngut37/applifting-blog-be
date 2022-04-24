@@ -1,5 +1,13 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
+import { Image } from '../image/image.entity';
 import { Comment } from '../comment/comment.entity';
 
 @Entity()
@@ -13,8 +21,18 @@ export class Article {
   @Column({ nullable: true })
   perex?: string;
 
-  @Column({ nullable: true })
-  image?: string;
+  @Column({ name: 'imageId', nullable: true })
+  imageId?: string;
+  // Article 1..1 Comment
+  @ManyToOne(() => Image, {
+    eager: false,
+    nullable: true,
+    cascade: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'NO ACTION',
+  })
+  @JoinColumn({ name: 'imageId' })
+  image?: Image;
 
   @Column()
   content: string;

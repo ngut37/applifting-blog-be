@@ -6,6 +6,9 @@ import {
   Pagination,
 } from 'nestjs-typeorm-paginate';
 
+import { ImageRepository } from '../image/image.repository';
+import { Image } from '../image/image.entity';
+
 import { Article } from './article.entity';
 import { ArticleRepository } from './article.repository';
 
@@ -17,6 +20,8 @@ export class ArticleService {
   constructor(
     @InjectRepository(ArticleRepository)
     private articleRepository: ArticleRepository,
+    @InjectRepository(ImageRepository)
+    private imageRepository: ImageRepository,
   ) {}
 
   async listArticles(
@@ -35,12 +40,25 @@ export class ArticleService {
     return foundArticle;
   }
 
-  async insertArticle(article: InsertArticleDto): Promise<Article> {
-    return await this.articleRepository.insertArticle(article);
+  async insertArticle(insertArticleDto: InsertArticleDto): Promise<Article> {
+    let foundImage: Image | undefined = undefined;
+
+    if (insertArticleDto.imageId) {
+      const { imageId } = insertArticleDto;
+      foundImage = await this.imageRepository.findOne(imageId);
+
+      if (!foundImage)
+        throw new NotFoundException(`Image with ID ${imageId} does not exist`);
+    }
+
+    return await this.articleRepository.insertArticle(
+      insertArticleDto,
+      foundImage,
+    );
   }
 
   async deleteArticle(id: Article['id']): Promise<void> {
-    const deleteResult = await this.articleRepository.deleteArticleById(id);
+    const deleteResult = await this.articleRepository.delete(id);
 
     if (!deleteResult.affected)
       throw new NotFoundException(`Article with ID "${id}" does not exist`);
