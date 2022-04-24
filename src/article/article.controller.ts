@@ -22,7 +22,7 @@ import { UpdateArticleDto } from './dto/update-article.dto';
 import { ArticleService } from './article.service';
 import { Article } from './article.entity';
 
-@Controller('article')
+@Controller('articles')
 @UseGuards(JwtAuthGuard)
 export class ArticleController {
   constructor(private articleService: ArticleService) {}

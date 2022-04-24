@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 
-import { InsertTenantDto } from './dto/insert-tenant.dto';
+import { TenantAuthenticationDto } from './dto/tenant-authentication.dto';
 
 import { Tenant } from './tenant.entity';
 import { TenantService } from './tenant.service';
@@ -11,13 +11,13 @@ export class TenantController {
 
   @Post()
   async insertTenant(
-    @Body() insertTenantDto: InsertTenantDto,
+    @Body() tenantAuthenticationDto: TenantAuthenticationDto,
   ): Promise<Tenant> {
-    return await this.tenantService.insertTenant(insertTenantDto);
+    return await this.tenantService.insertTenant(tenantAuthenticationDto);
   }
 
   @Get('/:id')
-  async getTenantById(@Param('id') id: string): Promise<Tenant> {
+  async getTenantById(@Param('id') id: Tenant['id']): Promise<Tenant> {
     return await this.tenantService.getTenantById(id);
   }
 }

@@ -42,7 +42,7 @@ export class ImageService {
     const foundImage = await this.imageRepository.findOne(id);
 
     if (!foundImage)
-      throw new NotFoundException(`Image with ID: ${id} does not exist`);
+      throw new NotFoundException(`Image with ID ${id} does not exist`);
 
     return foundImage;
   }
@@ -51,6 +51,6 @@ export class ImageService {
     const deleteResult = await this.imageRepository.delete(id);
 
     if (!deleteResult.affected)
-      throw new NotFoundException(`Image with ID "${id}" does not exist`);
+      throw new NotFoundException(`Image with ID ${id} does not exist`);
   }
 }

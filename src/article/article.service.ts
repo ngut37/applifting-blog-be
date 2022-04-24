@@ -34,7 +34,7 @@ export class ArticleService {
     const foundArticle = await this.articleRepository.findOne(id);
 
     if (!foundArticle) {
-      throw new NotFoundException(`Article with ID "${id}" does not exist`);
+      throw new NotFoundException(`Article with ID ${id} does not exist`);
     }
 
     return foundArticle;
@@ -61,7 +61,7 @@ export class ArticleService {
     const deleteResult = await this.articleRepository.delete(id);
 
     if (!deleteResult.affected)
-      throw new NotFoundException(`Article with ID "${id}" does not exist`);
+      throw new NotFoundException(`Article with ID ${id} does not exist`);
   }
 
   async updateArticleById(
@@ -74,7 +74,7 @@ export class ArticleService {
     );
 
     if (!updatedArticle)
-      throw new NotFoundException(`Article with ID "${id}" does not exist`);
+      throw new NotFoundException(`Article with ID ${id} does not exist`);
 
     return updatedArticle;
   }

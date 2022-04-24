@@ -21,11 +21,11 @@ export class CommentController {
 
   @Post('/:id/vote/up')
   async upvoteComment(@Param('id') id: string): Promise<void> {
-    this.commentService.upvote(id);
+    return this.commentService.upvote(id);
   }
 
   @Post('/:id/vote/down')
   async downvote(@Param('id') id: string): Promise<void> {
-    this.commentService.downvote(id);
+    return this.commentService.downvote(id);
   }
 }

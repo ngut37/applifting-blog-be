@@ -8,14 +8,15 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { config } from '@config';
 
 import { JwtPayload } from './jwt-payload.interface';
-import { UserRepository } from './user.repository';
-import { User } from './user.entity';
+
+import { TenantRepository } from '../tenant/tenant.repository';
+import { Tenant } from '../tenant/tenant.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
+    @InjectRepository(TenantRepository)
+    private tenantRepository: TenantRepository,
   ) {
     super({
       jwtFromRequest: (req: Request) => {
@@ -31,16 +32,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<User> {
-    const { username } = payload;
-    const user = await this.userRepository.findOne({ username });
+  async validate(payload: JwtPayload): Promise<Tenant> {
+    const { name } = payload;
+    const tenant = await this.tenantRepository.findOne({ name });
 
-    if (!user) {
+    if (!tenant) {
       throw new ForbiddenException(
         'Access token is missing, invalid or expired',
       );
     }
 
-    return user;
+    return tenant;
   }
 }

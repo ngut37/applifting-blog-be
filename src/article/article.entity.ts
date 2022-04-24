@@ -23,11 +23,10 @@ export class Article {
 
   @Column({ name: 'imageId', nullable: true })
   imageId?: string;
-  // Article 1..1 Comment
+  // Article n..1 Image
   @ManyToOne(() => Image, {
     eager: false,
     nullable: true,
-    cascade: true,
     onDelete: 'SET NULL',
     onUpdate: 'NO ACTION',
   })
