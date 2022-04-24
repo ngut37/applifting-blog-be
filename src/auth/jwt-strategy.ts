@@ -21,10 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: (req: Request) => {
         const extracted = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
-        if (!extracted)
-          throw new ForbiddenException(
-            'Access token is missing, invalid or expired',
-          );
         return extracted;
       },
       ignoreExpiration: false,
