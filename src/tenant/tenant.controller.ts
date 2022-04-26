@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 
 import { TenantAuthenticationDto } from './dto/tenant-authentication.dto';
 
@@ -17,7 +24,9 @@ export class TenantController {
   }
 
   @Get('/:id')
-  async getTenantById(@Param('id') id: Tenant['id']): Promise<Tenant> {
+  async getTenantById(
+    @Param('id', ParseUUIDPipe) id: Tenant['id'],
+  ): Promise<Tenant> {
     return await this.tenantService.getTenantById(id);
   }
 }

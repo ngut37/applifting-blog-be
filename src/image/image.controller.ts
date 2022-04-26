@@ -10,6 +10,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseUUIDPipe,
   Post,
   Res,
   StreamableFile,
@@ -45,7 +46,7 @@ export class ImageController {
 
   @Get('/:id')
   async getDatabaseFileById(
-    @Param('id') id: Image['id'],
+    @Param('id', ParseUUIDPipe) id: Image['id'],
     @Res({ passthrough: true }) response: Response,
   ): Promise<StreamableFile> {
     const image = await this.imageService.getImageById(id);
@@ -62,7 +63,7 @@ export class ImageController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteArticle(@Param('id') id: string): Promise<void> {
+  async deleteArticle(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return await this.imageService.deleteImageById(id);
   }
 }
