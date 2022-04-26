@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Query,
@@ -39,7 +40,9 @@ export class ArticleController {
   }
 
   @Get('/:id')
-  async getArticleById(@Param('id') id: string): Promise<Article> {
+  async getArticleById(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<Article> {
     return await this.articleService.getArticleById(id);
   }
 
@@ -52,13 +55,13 @@ export class ArticleController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteArticle(@Param('id') id: string): Promise<void> {
+  async deleteArticle(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return await this.articleService.deleteArticle(id);
   }
 
   @Patch('/:id')
   async updateArticle(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateArticleDto: UpdateArticleDto,
   ): Promise<Article> {
     const updatedArticle = await this.articleService.updateArticleById(

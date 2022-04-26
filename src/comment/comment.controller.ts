@@ -1,4 +1,11 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  ParseUUIDPipe,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
@@ -20,12 +27,12 @@ export class CommentController {
   }
 
   @Post('/:id/vote/up')
-  async upvoteComment(@Param('id') id: string): Promise<void> {
+  async upvoteComment(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.commentService.upvote(id);
   }
 
   @Post('/:id/vote/down')
-  async downvote(@Param('id') id: string): Promise<void> {
+  async downvote(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.commentService.downvote(id);
   }
 }
