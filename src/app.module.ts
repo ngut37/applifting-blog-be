@@ -1,9 +1,8 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { config } from '@config';
 
 import { ApiKeyMiddleware } from './middleware/api-key.middleware';
+
+import { CustomTypeOrmModule } from './typeorm/typeorm';
 
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
@@ -17,16 +16,7 @@ import { ImageController } from './image/image.controller';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: config.PG_HOST,
-      port: config.PG_PORT,
-      username: config.PG_USER,
-      password: config.PG_PASSWORD,
-      database: config.PG_DATABASE,
-      autoLoadEntities: true,
-      synchronize: true, // ! TODO - set to false for production env
-    }),
+    CustomTypeOrmModule(),
     ArticleModule,
     TenantModule,
     AuthModule,

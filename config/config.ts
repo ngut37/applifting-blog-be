@@ -3,6 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export const config = Object.freeze({
+  NODE_ENV: process.env.NODE_ENV || 'development',
   APP_PORT: process.env.APP_PORT || 4000,
 
   PG_HOST: process.env.PG_HOST,
