@@ -4,7 +4,7 @@ dotenv.config();
 
 export const config = Object.freeze({
   NODE_ENV: process.env.NODE_ENV || 'development',
-  APP_PORT: process.env.APP_PORT || 4000,
+  APP_PORT: process.env.APP_PORT || 8080,
 
   PG_HOST: process.env.PG_HOST,
   PG_PORT: parseInt(process.env.PG_PORT),
