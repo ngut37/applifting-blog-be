@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 
 import { ApiKeyMiddleware } from './middleware/api-key.middleware';
 
-import { CustomTypeOrmModule } from './typeorm/typeorm';
+import { CustomTypeOrmModule } from './persistance/persistance';
 
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
